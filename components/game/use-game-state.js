@@ -1,72 +1,28 @@
 import { useState } from "react";
-import { SYMBOL_O, SYMBOL_X } from "../constants";
+import { GAME_SYMBOLS, MOVES_ORDER } from "./constants";
 
-const computeWinner = (cells) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-  ];
+export function UseGameState() {
+  const [{ cells, currentMove }, setGameState] = useState(() => ({
+    cells: new Array(19 * 19).fill(null),
+    currentMove: GAME_SYMBOLS.ZERO,
+  }));
+  const nextMove = getNextMove(currentMove);
 
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
+  const handleCellClick = (idx) => {
+    if (cells[idx]) return;
+    setGameState((lastGameState) => ({
+      ...lastGameState,
+      currentMove: getNextMove(lastGameState.currentMove),
+      cells: lastGameState.cells.map((cell, i) =>
+        idx === i ? lastGameState.currentMove : cell,
+      ),
+    }));
+  };
 
-    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c])
-      return [a, b, c];
+  function getNextMove(cur) {
+    const nextIdx = MOVES_ORDER.indexOf(cur) + 1;
+    return MOVES_ORDER[nextIdx] ?? MOVES_ORDER[0];
   }
-};
 
-export function useGameState() {
-  const [cells, setCells] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
-  const [curStep, setCurStep] = useState(SYMBOL_O);
-  const [winnerSequence, setWinnerSequence] = useState();
-
-  const winnerSymbol = winnerSequence ? winnerSequence[0] : undefined;
-  const isDraw = !winnerSequence && cells.filter((val) => val).length === 9;
-  const getWinnerCell = (idx) => winnerSequence?.includes(idx);
-
-  const toggleCell = (idx) => {
-    if (cells[idx] || winnerSequence) {
-      return;
-    }
-
-    const copy = cells.slice();
-    copy[idx] = curStep;
-    const winner = computeWinner(copy);
-
-    setCells(copy);
-    setCurStep(curStep === SYMBOL_O ? SYMBOL_X : SYMBOL_O);
-    setWinnerSequence(winner);
-  };
-
-  const resetGame = () => {
-    setCells(Array.from({ length: 9 }, () => null));
-    setCurStep(SYMBOL_X);
-    setWinnerSequence(undefined);
-  };
-
-  return {
-    cells,
-    curStep,
-    winnerSymbol,
-    isDraw,
-    getWinnerCell,
-    toggleCell,
-    resetGame,
-  };
+  return { handleCellClick, cells, currentMove, nextMove };
 }

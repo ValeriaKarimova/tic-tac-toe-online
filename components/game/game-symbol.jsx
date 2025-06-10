@@ -1,12 +1,12 @@
-const symbolClasses = {
-  O: "text-blue-600",
-  X: "text-blue-400",
-};
+import { OIcon } from "../shared/icons/o-icon";
+import { XIcon } from "../shared/icons/x-icon";
+import { GAME_SYMBOLS } from "./constants";
 
-export function GameSymbol({ symbol }) {
-  const getClassName = () => {
-    return symbolClasses[symbol] ?? "";
-  };
-
-  return <span className={`, ${getClassName()}`}>{symbol}</span>;
+export function GameSymbol({ symbol, className }) {
+  const Icon =
+    {
+      [GAME_SYMBOLS.CROSS]: XIcon,
+      [GAME_SYMBOLS.ZERO]: OIcon,
+    }[symbol] ?? XIcon;
+  return <Icon className={className} />;
 }
