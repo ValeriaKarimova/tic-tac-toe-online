@@ -1,6 +1,7 @@
-export function XIcon() {
+export function XIcon({ className = "" }) {
   return (
     <svg
+      className={`text-orange-600 ${className}`}
       width="12"
       height="12"
       viewBox="0 0 12 12"

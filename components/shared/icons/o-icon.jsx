@@ -1,6 +1,7 @@
-export function OIcon() {
+export function OIcon({ className = "" }) {
   return (
     <svg
+      className={`text-teal-600 ${className}`}
       width="12"
       height="12"
       viewBox="0 0 12 12"

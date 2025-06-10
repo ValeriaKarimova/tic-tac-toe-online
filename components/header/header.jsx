@@ -12,7 +12,6 @@ export function Header() {
         <UiButton color={"teal"} size={"lg"}>
           Play
         </UiButton>
-        {/* <button className="bg-teal-600 hover:bg-teal-500 h-11 w-31 border-md text-white cursor-pointer rounded-lg text-2xl">Play</button> */}
       </div>
       <div className="flex gap-2 items-center text-teal-600 hover:text-teal-500 cursor-pointer">
         <Profile />
