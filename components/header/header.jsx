@@ -14,7 +14,7 @@ export function Header() {
         </UiButton>
       </div>
       <div className="flex gap-2 items-center text-teal-600 hover:text-teal-500 cursor-pointer">
-        <Profile />
+        <Profile playerInfo={{ name: "Valeri", place: "123", avatar: "" }} />
         <svg
           width="18"
           height="18"

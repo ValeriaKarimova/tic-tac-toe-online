@@ -1,10 +1,14 @@
 import { UiButton } from "../ui-kit/ui-button";
 import { GameSymbol } from "./game-symbol";
-import { UseGameState } from "./use-game-state";
 
-export function GameField({ className }) {
-  const { handleCellClick, cells, currentMove, nextMove } = UseGameState();
-
+export function GameField({
+  className,
+  handleCellClick,
+  cells,
+  currentMove,
+  nextMove,
+  winnerSequance,
+}) {
   const actions = (
     <>
       <div className="flex gap-3">
@@ -17,6 +21,7 @@ export function GameField({ className }) {
       </div>
     </>
   );
+
   return (
     <GameFieldLayout className={className}>
       <GameMoveInfo
@@ -26,8 +31,16 @@ export function GameField({ className }) {
       />
       <GameGrid>
         {cells.map((symbol, idx) => (
-          <GameCell key={idx} onClick={() => handleCellClick(idx)}>
-            {symbol && <GameSymbol symbol={symbol} className={"size-5"} />}
+          <GameCell
+            className={
+              winnerSequance && winnerSequance.includes(idx)
+                ? "bg-orange-600/10"
+                : ""
+            }
+            key={idx}
+            onClick={() => handleCellClick(idx)}
+          >
+            {symbol && <GameSymbol symbol={symbol} className="size-5" />}
           </GameCell>
         ))}
       </GameGrid>
@@ -69,11 +82,11 @@ function GameMoveInfo({ actions, currentMove, nextMove }) {
   );
 }
 
-function GameCell({ children, onClick }) {
+function GameCell({ children, onClick, className }) {
   return (
     <button
       onClick={onClick}
-      className="border cursor-pointer -ml-px -mt-px border-slate-200 flex items-center justify-center"
+      className={`border cursor-pointer -ml-px -mt-px border-slate-200 flex items-center justify-center ${className}`}
     >
       {children}
     </button>
