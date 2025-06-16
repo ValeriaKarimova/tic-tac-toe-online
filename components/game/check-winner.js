@@ -1,11 +1,24 @@
+import { GAME_SIZE } from "./constants";
+
+const FRAMES = {
+  // horizontal: {
+  //     top: Array.from({length: GAME_SIZE}, (_, i) => i),
+  //     bottom: Array.from({length: GAME_SIZE}, (_, i) => GAME_SIZE*18+i),
+  // },
+  vertical: {
+    left: Array.from({ length: GAME_SIZE }, (_, i) => 1 * i * GAME_SIZE),
+    right: Array.from({ length: GAME_SIZE }, (_, i) => 18 + i * GAME_SIZE),
+  },
+};
+
 export function checkIfWinner(idx, cells, currentMove) {
   const checkArr = new Array(5).fill(null);
   checkArr[0] = idx;
   return (
     checkHorisontal(idx, checkArr, cells, currentMove) ||
     checkVertical(idx, checkArr, cells, currentMove) ||
-    checkDiagonal(idx, checkArr, cells, currentMove) ||
-    checkSecondDiagonal(idx, checkArr, cells, currentMove)
+    checkTopBottomDiagonal(idx, checkArr, cells, currentMove) ||
+    checkBottomTopDiagonal(idx, checkArr, cells, currentMove)
   );
 }
 
@@ -15,6 +28,8 @@ function checkHorisontal(idx, checkArr, cells, currentMove) {
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate--;
+      if (FRAMES.vertical.right.includes(checkArr[i])) break;
+      if (FRAMES.vertical.left.includes(checkArr[i])) break;
     } else {
       break;
     }
@@ -23,6 +38,8 @@ function checkHorisontal(idx, checkArr, cells, currentMove) {
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate++;
+      if (FRAMES.vertical.left.includes(checkArr[i])) break;
+      if (FRAMES.vertical.right.includes(checkArr[i])) break;
     } else {
       break;
     }
@@ -31,21 +48,21 @@ function checkHorisontal(idx, checkArr, cells, currentMove) {
 }
 
 function checkVertical(idx, checkArr, cells, currentMove) {
-  let iterate = idx - 19;
+  let iterate = idx - GAME_SIZE;
   let i = 1;
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate;
-      iterate -= 19;
+      iterate -= GAME_SIZE;
     } else {
       break;
     }
   }
-  iterate = idx + 19;
+  iterate = idx + GAME_SIZE;
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate;
-      iterate += 19;
+      iterate += GAME_SIZE;
     } else {
       break;
     }
@@ -53,45 +70,47 @@ function checkVertical(idx, checkArr, cells, currentMove) {
   return checkArr.every((el) => el) ? checkArr : undefined;
 }
 
-function checkDiagonal(idx, checkArr, cells, currentMove) {
+function checkTopBottomDiagonal(idx, checkArr, cells, currentMove) {
   let i = 1;
-  let iterate = idx - 19 - 1;
+  let iterate = idx - GAME_SIZE - 1;
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate;
-      iterate -= 19 + 1;
+      iterate -= GAME_SIZE + 1;
     } else {
       break;
     }
   }
-  iterate = idx + 19 + 1;
+  iterate = idx + GAME_SIZE + 1;
   for (; i <= 5; i++) {
     if (currentMove === cells[iterate]) {
       checkArr[i] = iterate;
-      iterate += 19 + 1;
+      iterate += GAME_SIZE + 1;
     } else {
       break;
     }
   }
+
   return checkArr.every((el) => el) ? checkArr : undefined;
 }
 
-function checkSecondDiagonal(idx, checkArr, cells, currentMove) {
+function checkBottomTopDiagonal(idx, checkArr, cells, currentMove) {
   let i = 1;
-  let iterate = idx - 19 + 1;
+  let iterate = idx - GAME_SIZE + 1;
+
   for (; i < 5; i++) {
     if (currentMove === cells[iterate]) {
-      iterate -= 19 - 1;
-      checkArr[i] = 1;
+      iterate -= GAME_SIZE - 1;
+      checkArr[i] = iterate;
     } else {
       break;
     }
   }
-  iterate = idx + 19 - 1;
+  iterate = idx + GAME_SIZE - 1;
   for (; i <= 5; i++) {
     if (currentMove === cells[iterate]) {
-      iterate += 19 - 1;
-      checkArr[i] = 1;
+      iterate += GAME_SIZE - 1;
+      checkArr[i] = iterate;
     } else {
       break;
     }

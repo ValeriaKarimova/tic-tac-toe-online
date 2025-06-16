@@ -8,4 +8,11 @@ export const GAME_SYMBOLS = {
   SQUARE: "square",
 };
 
-export const MOVES_ORDER = [GAME_SYMBOLS.CROSS, GAME_SYMBOLS.ZERO];
+export let GAME_SIZE = 19;
+
+export const MOVES_ORDER = [
+  GAME_SYMBOLS.CROSS,
+  GAME_SYMBOLS.ZERO,
+  GAME_SYMBOLS.SQUARE,
+  GAME_SYMBOLS.TRIANGLE,
+];

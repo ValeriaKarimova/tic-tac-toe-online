@@ -19,27 +19,42 @@ const players = [
     avatar: "",
     symbol: GAME_SYMBOLS.ZERO,
   },
+  {
+    id: 3,
+    name: "Cat",
+    place: "36",
+    avatar: "",
+    symbol: GAME_SYMBOLS.SQUARE,
+  },
+  {
+    id: 3,
+    name: "DOG",
+    place: "12",
+    avatar: "",
+    symbol: GAME_SYMBOLS.TRIANGLE,
+  },
 ];
 
-export function GameInfo({ currentMove, className }) {
+export function GameInfo({ currentMove, className, winner, onTimeOver }) {
   return (
     <div
-      className={`mt-4 py-4 shadow-md px-8 bg-white rounded-2xl flex items-center justify-between text-teal-600 ${className}`}
+      className={`mt-4 py-4 shadow-md px-8 bg-white rounded-2xl flex flex-wrap gap-y-3.5 items-center justify-between text-teal-600 ${className}`}
     >
-      {players.map((player, idx) => (
+      {players.map((player) => (
         <PlayerInfo
           className={"even:flex-row-reverse"}
           key={player.id}
           playerInfo={player}
-          isTimer={currentMove === player.symbol}
+          onTimeOver={() => onTimeOver(player.symbol)}
+          isTimer={currentMove === player.symbol && !winner}
         ></PlayerInfo>
       ))}
     </div>
   );
 }
 
-function PlayerInfo({ playerInfo, className, isTimer }) {
-  const [seconds, setSeconds] = useState(60);
+function PlayerInfo({ playerInfo, className, isTimer, onTimeOver }) {
+  const [seconds, setSeconds] = useState(5);
   const minutesStr = String(Math.floor(seconds / 60)).padStart(2, "0");
   const secondsStr = String(seconds % 60).padStart(2, "0");
   const isDanger = seconds < 10;
@@ -52,10 +67,14 @@ function PlayerInfo({ playerInfo, className, isTimer }) {
 
       return () => {
         clearInterval(intervalId);
-        setSeconds(60);
+        setSeconds(5);
       };
     }
   }, [isTimer]);
+
+  useEffect(() => {
+    if (seconds <= 0) onTimeOver();
+  }, [seconds]);
 
   return (
     <div className={`flex gap-3 items-center ${className}`}>
@@ -67,7 +86,7 @@ function PlayerInfo({ playerInfo, className, isTimer }) {
       </div>
       <div className="bg-slate-200 h-8 w-px"></div>
       <p
-        className={`${isDanger ? "text-orange-600" : isTimer ? "text-slate-900" : "text-slate-300"} text-lg font-semibold`}
+        className={`${isTimer ? (isDanger ? "text-orange-600" : "text-slate-900") : "text-slate-300"} text-lg font-semibold`}
       >
         {minutesStr}:{secondsStr}
       </p>

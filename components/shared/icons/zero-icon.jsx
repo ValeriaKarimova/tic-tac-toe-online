@@ -1,4 +1,4 @@
-export function OIcon({ className = "" }) {
+export function ZeroIcon({ className = "" }) {
   return (
     <svg
       className={`text-teal-600 ${className}`}

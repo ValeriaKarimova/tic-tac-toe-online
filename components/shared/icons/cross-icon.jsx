@@ -1,4 +1,4 @@
-export function XIcon({ className = "" }) {
+export function CrossIcon({ className = "" }) {
   return (
     <svg
       className={`text-orange-600 ${className}`}

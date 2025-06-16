@@ -1,5 +1,6 @@
 import { UiButton } from "../ui-kit/ui-button";
 import { GameSymbol } from "./game-symbol";
+import { GAME_SIZE } from "./constants";
 
 export function GameField({
   className,
@@ -39,6 +40,7 @@ export function GameField({
             }
             key={idx}
             onClick={() => handleCellClick(idx)}
+            disabled={!!winnerSequance}
           >
             {symbol && <GameSymbol symbol={symbol} className="size-5" />}
           </GameCell>
@@ -60,7 +62,9 @@ function GameFieldLayout({ children, className }) {
 
 function GameGrid({ children }) {
   return (
-    <div className="grid mt-3 grid-cols-[repeat(19,_29px)] grid-rows-[repeat(19,_29px)]">
+    <div
+      className={`grid mt-3 grid-cols-[repeat(${GAME_SIZE},_29px)] grid-rows-[repeat(${GAME_SIZE},_29px)]`}
+    >
       {children}
     </div>
   );
@@ -82,9 +86,10 @@ function GameMoveInfo({ actions, currentMove, nextMove }) {
   );
 }
 
-function GameCell({ children, onClick, className }) {
+function GameCell({ children, onClick, className, disabled }) {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={`border cursor-pointer -ml-px -mt-px border-slate-200 flex items-center justify-center ${className}`}
     >
