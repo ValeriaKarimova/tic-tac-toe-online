@@ -1,39 +1,8 @@
 // import { GameSymbol } from "./game-symbol";
 import { Profile } from "../profile/profile";
-import { GAME_SYMBOLS } from "./constants";
+import { players } from "./constants";
 import { GameSymbol } from "./game-symbol";
 import { useEffect, useState } from "react";
-
-const players = [
-  {
-    id: 1,
-    name: "Valeria Karimova Olegovna",
-    place: "123",
-    avatar: "",
-    symbol: GAME_SYMBOLS.CROSS,
-  },
-  {
-    id: 2,
-    name: "Dmitrii",
-    place: "1236",
-    avatar: "",
-    symbol: GAME_SYMBOLS.ZERO,
-  },
-  {
-    id: 3,
-    name: "Cat",
-    place: "36",
-    avatar: "",
-    symbol: GAME_SYMBOLS.SQUARE,
-  },
-  {
-    id: 3,
-    name: "DOG",
-    place: "12",
-    avatar: "",
-    symbol: GAME_SYMBOLS.TRIANGLE,
-  },
-];
 
 export function GameInfo({ currentMove, className, winner, onTimeOver }) {
   return (
@@ -53,7 +22,7 @@ export function GameInfo({ currentMove, className, winner, onTimeOver }) {
   );
 }
 
-function PlayerInfo({ playerInfo, className, isTimer, onTimeOver }) {
+export function PlayerInfo({ playerInfo, className, isTimer, onTimeOver }) {
   const [seconds, setSeconds] = useState(5);
   const minutesStr = String(Math.floor(seconds / 60)).padStart(2, "0");
   const secondsStr = String(seconds % 60).padStart(2, "0");

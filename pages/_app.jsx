@@ -7,7 +7,7 @@ const inter = Inter({
 export default function App({ Component, pageProps }) {
   return (
     <div className={`${inter.className} text-slate-900`}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />;<div id="modals"></div>
     </div>
   );
 }

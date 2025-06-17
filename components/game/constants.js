@@ -16,3 +16,34 @@ export const MOVES_ORDER = [
   GAME_SYMBOLS.SQUARE,
   GAME_SYMBOLS.TRIANGLE,
 ];
+
+export const players = [
+  {
+    id: 1,
+    name: "Valeria Karimova Olegovna",
+    place: "123",
+    avatar: "",
+    symbol: GAME_SYMBOLS.CROSS,
+  },
+  {
+    id: 2,
+    name: "Dmitrii",
+    place: "1236",
+    avatar: "",
+    symbol: GAME_SYMBOLS.ZERO,
+  },
+  {
+    id: 3,
+    name: "Cat",
+    place: "36",
+    avatar: "",
+    symbol: GAME_SYMBOLS.SQUARE,
+  },
+  {
+    id: 3,
+    name: "DOG",
+    place: "12",
+    avatar: "",
+    symbol: GAME_SYMBOLS.TRIANGLE,
+  },
+];

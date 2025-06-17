@@ -63,7 +63,7 @@ function GameFieldLayout({ children, className }) {
 function GameGrid({ children }) {
   return (
     <div
-      className={`grid mt-3 grid-cols-[repeat(${GAME_SIZE},_29px)] grid-rows-[repeat(${GAME_SIZE},_29px)]`}
+      className={`grid mt-3 grid-cols-[repeat(19,_29px)] grid-rows-[repeat(19,_29px)]`}
     >
       {children}
     </div>
